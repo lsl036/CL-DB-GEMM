@@ -23,11 +23,11 @@ template <int V>
 void StartVariation(int argc, char *argv[]) {
   const auto command_line_args = clblast::RetrieveCommandLineArguments(argc, argv);
   switch(clblast::GetPrecision(command_line_args)) {
-    // case clblast::Precision::kHalf: clblast::Tuner<half>(argc, argv, V, clblast::MyXgemmGetTunerDefaults, clblast::MyXgemmGetTunerSettings<half>, clblast::MyXgemmTestValidArguments<half>, clblast::MyXgemmSetConstraints, clblast::MyXgemmComputeLocalMemSize<half>, clblast::MyXgemmSetArguments<half>); break;
+    case clblast::Precision::kHalf: clblast::Tuner<half>(argc, argv, V, clblast::MyXgemmGetTunerDefaults, clblast::MyXgemmGetTunerSettings<half>, clblast::MyXgemmTestValidArguments<half>, clblast::MyXgemmSetConstraints, clblast::MyXgemmComputeLocalMemSize<half>, clblast::MyXgemmSetArguments<half>); break;
     case clblast::Precision::kSingle: clblast::Tuner<float>(argc, argv, V, clblast::MyXgemmGetTunerDefaults, clblast::MyXgemmGetTunerSettings<float>, clblast::MyXgemmTestValidArguments<float>, clblast::MyXgemmSetConstraints, clblast::MyXgemmComputeLocalMemSize<float>, clblast::MyXgemmSetArguments<float>); break;
-    // case clblast::Precision::kDouble: clblast::Tuner<double>(argc, argv, V, clblast::MyXgemmGetTunerDefaults, clblast::MyXgemmGetTunerSettings<double>, clblast::MyXgemmTestValidArguments<double>, clblast::MyXgemmSetConstraints, clblast::MyXgemmComputeLocalMemSize<double>, clblast::MyXgemmSetArguments<double>); break;
-    // case clblast::Precision::kComplexSingle: clblast::Tuner<float2>(argc, argv, V, clblast::MyXgemmGetTunerDefaults, clblast::MyXgemmGetTunerSettings<float2>, clblast::MyXgemmTestValidArguments<float2>, clblast::MyXgemmSetConstraints, clblast::MyXgemmComputeLocalMemSize<float2>, clblast::MyXgemmSetArguments<float2>); break;
-    // case clblast::Precision::kComplexDouble: clblast::Tuner<double2>(argc, argv, V, clblast::MyXgemmGetTunerDefaults, clblast::MyXgemmGetTunerSettings<double2>, clblast::MyXgemmTestValidArguments<double2>, clblast::MyXgemmSetConstraints, clblast::MyXgemmComputeLocalMemSize<double2>, clblast::MyXgemmSetArguments<double2>); break;
+    case clblast::Precision::kDouble: clblast::Tuner<double>(argc, argv, V, clblast::MyXgemmGetTunerDefaults, clblast::MyXgemmGetTunerSettings<double>, clblast::MyXgemmTestValidArguments<double>, clblast::MyXgemmSetConstraints, clblast::MyXgemmComputeLocalMemSize<double>, clblast::MyXgemmSetArguments<double>); break;
+    case clblast::Precision::kComplexSingle: clblast::Tuner<float2>(argc, argv, V, clblast::MyXgemmGetTunerDefaults, clblast::MyXgemmGetTunerSettings<float2>, clblast::MyXgemmTestValidArguments<float2>, clblast::MyXgemmSetConstraints, clblast::MyXgemmComputeLocalMemSize<float2>, clblast::MyXgemmSetArguments<float2>); break;
+    case clblast::Precision::kComplexDouble: clblast::Tuner<double2>(argc, argv, V, clblast::MyXgemmGetTunerDefaults, clblast::MyXgemmGetTunerSettings<double2>, clblast::MyXgemmTestValidArguments<double2>, clblast::MyXgemmSetConstraints, clblast::MyXgemmComputeLocalMemSize<double2>, clblast::MyXgemmSetArguments<double2>); break;
   }
 }
 

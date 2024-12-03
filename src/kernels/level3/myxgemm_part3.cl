@@ -377,31 +377,6 @@ INLINE_FUNC void MyXgemmBody(const int kSizeM, const int kSizeN, const int kSize
   }
 }
 
-INLINE_FUNC void MyXgemmKERNEL(const int kSizeM, const int kSizeN, const int kSizeK, const __global realM* restrict agm, const __global realN* restrict bgm, __global realM* cgm, const real alpha, const real beta)
-{
-
-  #pragma promote_to_registers
-  realM cpm[NWI*(MWI/VWM)]; // NWI * MWI
-
-  // Initializes the accumulation registers
-  #pragma unroll
-  for (int _mi = 0; _mi < MWI/VWM; _mi += 1) {
-    #pragma unroll
-    for (int _ni = 0; _ni < NWI; _ni += 1) {
-      cpm[_ni * (MWI/VWM) + _mi] = InitAccRegisters();
-    }
-  }
-
-  volatile int tid = get_local_id(0) + MDIMC*get_local_id(1);
-  // Index for load local Mem of matrix A and matrix B
-  const int la0 = tid % MDIMA;
-  const int la1 = tid / MDIMA;
-  const int lb0 = tid % NDIMB;
-  const int lb1 = tid / NDIMB;
-
-  // error: non-kernel function variable cannot be declared in local address space
-}
-
 )"
 // End of the C++11 raw string literal
 

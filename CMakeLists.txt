@@ -229,8 +229,11 @@ set(PRECISIONS 32 64 3232 6464 16)
 
 # Sample programs
 if(OPENCL)
-  set(SAMPLE_PROGRAMS_CPP sgemm sgemm_batched dtrsm tuning_api Bayesian_Tuner)
-  set(SAMPLE_PROGRAMS_C sasum samax dgemv mysgemm sgemm haxpy cache)
+  # set(SAMPLE_PROGRAMS_CPP sgemm sgemm_batched dtrsm tuning_api Bayesian_Tuner)
+  # set(SAMPLE_PROGRAMS_C sasum samax dgemv mysgemm sgemm haxpy cache)
+# simplizing for gemm testing
+  set(SAMPLE_PROGRAMS_CPP sgemm tuning_api BO_Tuner_single BO_Tuner_double BO_Tuner_half)
+  set(SAMPLE_PROGRAMS_C mysgemm sgemm)
   if(NETLIB)
     set(SAMPLE_PROGRAMS_C ${SAMPLE_PROGRAMS_C} sgemm_netlib)
   endif()
@@ -665,7 +668,8 @@ endif()
 # ==================================================================================================
 if(BO)
   set (BAYESIAN_OPT
-  tuner/RunKernel.py
+  tuner/RunSKernel.py
+  tuner/RunDKernel.py
   )
 
   foreach (_file ${BAYESIAN_OPT})

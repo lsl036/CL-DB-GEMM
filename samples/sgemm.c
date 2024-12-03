@@ -39,7 +39,7 @@ void random_matrix(int m, int n, float *a, int lda);
 int main(void) {
 
   // OpenCL platform/device settings
-  const size_t platform_id = 0;
+  const size_t platform_id = 1;
   const size_t device_id = 0;
 
   // Example SGEMM arguments
@@ -73,12 +73,26 @@ int main(void) {
   clGetPlatformIDs(num_platforms, platforms, NULL);
   cl_platform_id platform = platforms[platform_id];
 
+  size_t platform_name_size;
+  clGetPlatformInfo(platform, CL_PLATFORM_NAME, 0, NULL, &platform_name_size);
+  char* platform_name = (char*)malloc(platform_name_size);
+  clGetPlatformInfo(platform, CL_PLATFORM_NAME, platform_name_size, platform_name, NULL);
+  printf("Platform Name: %s\n", platform_name);
+  free(platform_name);
+
   // Initializes the OpenCL device
   cl_uint num_devices;
   clGetDeviceIDs(platform, CL_DEVICE_TYPE_ALL, 0, NULL, &num_devices);
   cl_device_id* devices = (cl_device_id*)malloc(num_devices*sizeof(cl_device_id));
   clGetDeviceIDs(platform, CL_DEVICE_TYPE_ALL, num_devices, devices, NULL);
   cl_device_id device = devices[device_id];
+
+  size_t device_name_size;
+  clGetDeviceInfo(device, CL_DEVICE_NAME, 0, NULL, &device_name_size);
+  char* device_name = (char*)malloc(device_name_size);
+  clGetDeviceInfo(device, CL_DEVICE_NAME, device_name_size, device_name, NULL);
+  printf("Device Name: %s\n", device_name);
+  free(device_name);
 
   // Creates the OpenCL context, queue, and an event
   cl_context context = clCreateContext(NULL, 1, &device, NULL, NULL, NULL);

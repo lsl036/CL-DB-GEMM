@@ -104,6 +104,7 @@ const DatabaseEntry XgemmDouble = {
           { Name{"Intel(R) Core(TM) i9-9980HK CPU @ 2.40GHz         "}, Params{ 1, 2, 1, 1, 8, 8, 32, 4, 4, 64, 0, 0, 0, 0, 1, 1 } },
           { Name{"Intel(R) Xeon(R) CPU E5-2630 v3 @ 2.40GHz         "}, Params{ 1, 2, 1, 1, 16, 16, 16, 8, 8, 64, 0, 0, 0, 0, 1, 1 } },
           { Name{"Intel(R) Xeon(R) CPU E5-2630 v4 @ 2.20GHz         "}, Params{ 1, 2, 1, 1, 16, 16, 16, 4, 4, 16, 0, 0, 0, 0, 1, 1 } },
+          { Name{"Intel(R) Xeon(R) Gold 5120 CPU @ 2.20GHz          "}, Params{ 0, 1, 16, 2, 16, 4, 64, 4, 8, 32, 0, 0, 1, 0, 4, 4 } },
           { kDeviceNameDefault                                        , Params{ 0, 1, 32, 2, 16, 16, 16, 8, 8, 64, 1, 1, 0, 0, 1, 4 } },
         } },
       }

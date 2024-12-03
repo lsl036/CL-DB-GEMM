@@ -111,6 +111,7 @@ void Xgemm(const int kSizeM, const int kSizeN, const int kSizeK,
   bgm = &bgm[b_offset];
   cgm = &cgm[c_offset];
 
+  // TRY_MYKERNEL == 0 时，使用原生CLBlast的 kernel 进行运算
   #if TRY_MYKERNEL == 0
     // Allocates workgroup-private memory (local memory)
     #if SA == 1
@@ -130,7 +131,7 @@ void Xgemm(const int kSizeM, const int kSizeN, const int kSizeK,
     #else
       XgemmBody(kSizeM, kSizeN, kSizeK, agm, bgm, cgm, alpha, beta);
     #endif
-  #else
+  #else   // TRY_MYKERNEL == 1 时，使用 DB-GEMM 的 kernel 进行运算
     __local realM alm[2 * KWG * MWG/VWM];
     __local realN blm[2 * KWG * NWG/VWN];
 

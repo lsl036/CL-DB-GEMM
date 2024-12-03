@@ -111,6 +111,7 @@ const DatabaseEntry XgemmSingle = {
       }
     },
     { // Intel CPUs
+    // 0    1   16    2   16    8  128    8    8   64    1    0    0    1    8    8 : 691.9507 GFlops Intel Xeon 5120
       kDeviceTypeCPU, "Intel", {
         { "default", {
           { Name{"Intel(R) Core(TM) i7-2670QM CPU @ 2.20GHz         "}, Params{ 0, 1, 16, 2, 8, 8, 128, 16, 8, 128, 0, 1, 1, 1, 1, 8 } },
@@ -125,6 +126,7 @@ const DatabaseEntry XgemmSingle = {
           { Name{"Intel(R) Core(TM) i9-9980HK CPU @ 2.40GHz         "}, Params{ 1, 2, 1, 1, 16, 16, 64, 4, 4, 64, 0, 0, 0, 0, 1, 1 } },
           { Name{"Intel(R) Xeon(R) CPU E5-2630 v3 @ 2.40GHz         "}, Params{ 0, 1, 32, 2, 16, 8, 32, 8, 32, 128, 1, 1, 1, 1, 1, 4 } },
           { Name{"Intel(R) Xeon(R) CPU E5-2630 v4 @ 2.20GHz         "}, Params{ 1, 1, 1, 1, 16, 16, 16, 8, 8, 64, 0, 0, 0, 0, 1, 1 } },
+          { Name{"Intel(R) Xeon(R) Gold 5120 CPU @ 2.20GHz          "}, Params{ 0, 1, 16, 2, 16, 8, 128, 8, 8, 64, 1, 0, 0, 1, 8, 8 } },
           { kDeviceNameDefault                                        , Params{ 0, 1, 32, 2, 16, 16, 64, 8, 8, 64, 0, 0, 0, 0, 4, 4 } },
         } },
       }

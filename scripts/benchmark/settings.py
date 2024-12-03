@@ -200,7 +200,7 @@ GBMV = {
 }
 
 GEMM = {
-    "num_rows": 2, "num_cols": 3,
+    "num_rows": 1, "num_cols": 3,
     "benchmarks": [
         {
             "name": "gemm", "num_runs": 20,
@@ -210,6 +210,14 @@ GEMM = {
             "arguments": [{"m": 128, "n": 128, "k": 128, "layout": 102,
                            "transA": 111, "transB": 111, "step": 128, "num_steps": 20}],
         },
+        # {
+        #     "name": "gemm", "num_runs": 20,
+        #     "title": "multiples of 512",
+        #     "x_label": "sizes (m=n=k)", "x_keys": ["m"],
+        #     "y_label": "GFLOPS (higher is better)", "y_key": "GFLOPS",
+        #     "arguments": [{"m": 512, "n": 512, "k": 512, "layout": 512,
+        #                    "transA": 111, "transB": 111, "step": 512, "num_steps": 20}],
+        # },
         {
             "name": "gemm", "num_runs": 20,
             "title": "multiples of 129",
@@ -218,14 +226,14 @@ GEMM = {
             "arguments": [{"m": 129, "n": 129, "k": 129, "layout": 102,
                            "transA": 111, "transB": 111, "step": 129, "num_steps": 20}],
         },
-        {
-            "name": "gemm", "num_runs": 20,
-            "title": "around 512",
-            "x_label": "sizes (m=n=k)", "x_keys": ["m"],
-            "y_label": "GFLOPS (higher is better)", "y_key": "GFLOPS",
-            "arguments": [{"m": 512, "n": 512, "k": 512, "layout": 102,
-                           "transA": 111, "transB": 111, "step": 1, "num_steps": 16}],
-        },
+        # {
+        #     "name": "gemm", "num_runs": 20,
+        #     "title": "around 512",
+        #     "x_label": "sizes (m=n=k)", "x_keys": ["m"],
+        #     "y_label": "GFLOPS (higher is better)", "y_key": "GFLOPS",
+        #     "arguments": [{"m": 512, "n": 512, "k": 512, "layout": 102,
+        #                    "transA": 111, "transB": 111, "step": 1, "num_steps": 16}],
+        # },
         {
             "name": "gemm", "num_runs": 10,
             "title": "around 2048",
@@ -233,25 +241,25 @@ GEMM = {
             "y_label": "GFLOPS (higher is better)", "y_key": "GFLOPS",
             "arguments": [{"m": 2048, "n": 2048, "k": 2048, "layout": 102,
                            "transA": 111, "transB": 111, "step": 1, "num_steps": 16}],
-        },
-        {
-            "name": "gemm", "num_runs": 10,
-            "title": "layouts/transpose",
-            "x_label": "layout, transA, transB", "x_keys": ["layout", "transA", "transB"],
-            "y_label": "GFLOPS (higher is better)", "y_key": "GFLOPS",
-            "arguments": [{"m": 1024, "n": 1024, "k": 1024, "layout": layout,
-                           "transA": transA, "transB": transB, "step": 0, "num_steps": 1}
-                          for layout in [101, 102] for transA in [111, 112] for transB in [111, 112]],
-        },
-        {
-            "name": "gemm", "num_runs": 10,
-            "title": "powers of 2",
-            "x_label": "sizes (m=n=k)", "x_keys": ["m"],
-            "y_label": "GFLOPS (higher is better)", "y_key": "GFLOPS",
-            "arguments": [{"m": n, "n": n, "k": n, "layout": 102,
-                           "transA": 111, "transB": 111, "step": 0, "num_steps": 1}
-                          for n in utils.powers_of_2(8, utils.k(4))],
         }
+        # {
+        #     "name": "gemm", "num_runs": 10,
+        #     "title": "layouts/transpose",
+        #     "x_label": "layout, transA, transB", "x_keys": ["layout", "transA", "transB"],
+        #     "y_label": "GFLOPS (higher is better)", "y_key": "GFLOPS",
+        #     "arguments": [{"m": 1024, "n": 1024, "k": 1024, "layout": layout,
+        #                    "transA": transA, "transB": transB, "step": 0, "num_steps": 1}
+        #                   for layout in [101, 102] for transA in [111, 112] for transB in [111, 112]],
+        # },
+        # {
+        #     "name": "gemm", "num_runs": 10,
+        #     "title": "powers of 2",
+        #     "x_label": "sizes (m=n=k)", "x_keys": ["m"],
+        #     "y_label": "GFLOPS (higher is better)", "y_key": "GFLOPS",
+        #     "arguments": [{"m": n, "n": n, "k": n, "layout": 102,
+        #                    "transA": 111, "transB": 111, "step": 0, "num_steps": 1}
+        #                   for n in utils.powers_of_2(8, utils.k(4))],
+        # }
     ]
 }
 
@@ -458,6 +466,6 @@ SUMMARY = {
         GEMV["benchmarks"][0],
         GEMV["benchmarks"][1],
         GEMM["benchmarks"][0],
-        GEMM["benchmarks"][1],
+        # GEMM["benchmarks"][1],
     ]
 }

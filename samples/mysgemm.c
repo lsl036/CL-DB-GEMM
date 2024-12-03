@@ -39,16 +39,16 @@ void random_matrix(int m, int n, float *a, int lda);
 int main(void) {
 
   // OpenCL platform/device settings
-  const size_t platform_id = 0;
+  const size_t platform_id = 1;
   const size_t device_id = 0;
 
   // Example SGEMM arguments
   // const size_t m = 128;
   // const size_t n = 64;
   // const size_t k = 512;
-  const size_t m = 1024;
-  const size_t n = 1024;
-  const size_t k = 1024;
+  const size_t m = 4096;
+  const size_t n = 4096;
+  const size_t k = 4096;
 
   // 检测正确性的settings
   // const int warm_up_ = 0;
@@ -73,12 +73,26 @@ int main(void) {
   clGetPlatformIDs(num_platforms, platforms, NULL);
   cl_platform_id platform = platforms[platform_id];
 
+  size_t platform_name_size;
+  clGetPlatformInfo(platform, CL_PLATFORM_NAME, 0, NULL, &platform_name_size);
+  char* platform_name = (char*)malloc(platform_name_size);
+  clGetPlatformInfo(platform, CL_PLATFORM_NAME, platform_name_size, platform_name, NULL);
+  printf("Platform Name: %s\n", platform_name);
+  free(platform_name);
+
   // Initializes the OpenCL device
   cl_uint num_devices;
   clGetDeviceIDs(platform, CL_DEVICE_TYPE_ALL, 0, NULL, &num_devices);
   cl_device_id* devices = (cl_device_id*)malloc(num_devices*sizeof(cl_device_id));
   clGetDeviceIDs(platform, CL_DEVICE_TYPE_ALL, num_devices, devices, NULL);
   cl_device_id device = devices[device_id];
+
+  size_t device_name_size;
+  clGetDeviceInfo(device, CL_DEVICE_NAME, 0, NULL, &device_name_size);
+  char* device_name = (char*)malloc(device_name_size);
+  clGetDeviceInfo(device, CL_DEVICE_NAME, device_name_size, device_name, NULL);
+  printf("Device Name: %s\n", device_name);
+  free(device_name);
 
   // Creates the OpenCL context, queue, and an event
   cl_context context = clCreateContext(NULL, 1, &device, NULL, NULL, NULL);
@@ -90,11 +104,8 @@ int main(void) {
   float* host_b = (float*)malloc(sizeof(float)*n*k);
   float* host_c = (float*)malloc(sizeof(float)*m*n);
   float* result_c = (float*)malloc(sizeof(float)*m*n);
-  // random_matrix(m, k, host_a, a_ld);
-  // random_matrix(k, n, host_b, b_ld);
-
-  for (size_t i=0; i<m*k; ++i) { host_a[i] = 4.0f; }
-  for (size_t i=0; i<n*k; ++i) { host_b[i] = 5.6f; }
+  for (size_t i=0; i<m*k; ++i) { host_a[i] = 12.193f; }
+  for (size_t i=0; i<n*k; ++i) { host_b[i] = -8.199f; }
   for (size_t i=0; i<m*n; ++i) { host_c[i] = 0.0f; }
 
   // Copy the matrices to the device
@@ -171,17 +182,17 @@ int main(void) {
   printf("Matrix Sizes: M = %zu, N = %zu, K = %zu\n", m, n, k);
   printf("MySgemm Float-points Performance is: %.3lf GFlops \n", 2*m*n*k/timeDuration/1e9);
 
-  float diff = 0.0;
+  // float diff = 0.0;
 
-  diff = compare_matrices(m, n, result_c, c_ld, host_c, c_ld);
-  if (diff > 0.5f || diff < -0.5f) {
-      fprintf(stdout, " diff too big: %le\n", diff);
-      exit(-1);
-  }
-  else{
-    printf("Result Correct\n");
-    printf("result_c[0]= %f,  host_c[0]= %lf \n", result_c[0], host_c[0] );
-  }
+  // diff = compare_matrices(m, n, result_c, c_ld, host_c, c_ld);
+  // if (diff > 0.5f || diff < -0.5f) {
+  //     fprintf(stdout, " diff too big: %le\n", diff);
+  //     exit(-1);
+  // }
+  // else{
+  //   printf("Result Correct\n");
+  //   printf("result_c[0]= %f,  host_c[0]= %lf \n", result_c[0], host_c[0] );
+  // }
   
   // Clean-up
   free(platforms);

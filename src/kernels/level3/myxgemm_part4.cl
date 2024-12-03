@@ -14,7 +14,7 @@
 // Enables loading of this file using the C++ pre-processor's #include (C++11 standard raw string
 // literal). Comment-out this line for syntax-highlighting when developing.
 R"(
-#define TRY_MYKERNEL 0
+
 // The upper-triangular and lower-triangular kernels are only used in special cases
 #if defined(ROUTINE_SYRK) || defined(ROUTINE_HERK) || defined(ROUTINE_SYR2K) || defined(ROUTINE_HER2K)
 
@@ -91,6 +91,7 @@ void MyXgemm(const int kSizeM, const int kSizeN, const int kSizeK,
            const __global realN* restrict bgm,
            __global realM* cgm,
            const int b_offset, const int c_offset) {
+
   const real alpha = GetRealArg(arg_alpha);
   const real beta = GetRealArg(arg_beta);
 
@@ -98,20 +99,14 @@ void MyXgemm(const int kSizeM, const int kSizeN, const int kSizeK,
   bgm = &bgm[b_offset];
   cgm = &cgm[c_offset];
 
-  // #if TRY_MYKERNEL == 0
-    // Allocates workgroup-private memory (local memory)
-    // add another place for ping-pong load
+  // Allocates workgroup-private memory (local memory)
+  // add another place for ping-pong load
     
-      __local realM alm[2 * KWG * MWG/VWM];
-      __local realN blm[2 * KWG * NWG/VWN];
+  __local realM alm[2 * KWG * MWG/VWM];
+  __local realN blm[2 * KWG * NWG/VWN];
 
-      // Computes the matrix-multiplication and stores the result in global memory
-      MyXgemmBody(kSizeM, kSizeN, kSizeK, agm, bgm, cgm, alpha, beta, alm, blm);
-  // #else
-  //   MyXgemmKERNEL(kSizeM, kSizeN, kSizeK, agm, bgm, cgm, alpha, beta);
-  //   // MyXgemmKERNEL(kSizeM, kSizeN, kSizeK, agm, bgm, cgm, alpha, beta, alm, blm);
-
-  // #endif
+  // Computes the matrix-multiplication and stores the result in global memory
+  MyXgemmBody(kSizeM, kSizeN, kSizeK, agm, bgm, cgm, alpha, beta, alm, blm);
 
 }
 
