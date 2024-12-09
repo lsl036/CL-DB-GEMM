@@ -89,8 +89,8 @@ TunerSettings XgemmGetTunerSettings(const int V, const Arguments<T> &args) {
       {"NDIMB", {8, 16, 32}},
       {"NDIMC", {8, 16, 32}},
       {"NWG", {16, 32, 64}},
-      {"SA", {0, 1}},
-      {"SB", {0, 1}},
+      {"SA", {1}},
+      {"SB", {1}},
       {"STRM", {0}},
       {"STRN", {0}},
       {"VWM", {1, 2, 4}},
@@ -104,8 +104,8 @@ TunerSettings XgemmGetTunerSettings(const int V, const Arguments<T> &args) {
       // {"MDIMA", {8, 16, 32, 64}},
       // {"NDIMB", {8, 16, 32, 64}},
       // {"KWI", {2}},
-      // {"VWM", {4}},
-      // {"VWN", {4}},
+      // {"VWM", {2, 4}},
+      // {"VWN", {2, 4}},
       // {"STRM", {1}},
       // {"STRN", {1}},
       // {"SA", {1}},
@@ -117,20 +117,20 @@ TunerSettings XgemmGetTunerSettings(const int V, const Arguments<T> &args) {
     settings.parameters = {
       {"GEMMK", {0}},
       {"KREG", {1}},
-      {"KWG", {16, 32}},
+      {"KWG", {8, 16, 32, 64}},
       {"KWI", {2}},
-      {"MDIMA", {8, 16, 32}},
-      {"MDIMC", {8, 16, 32}},
-      {"MWG", {16, 32, 64, 128}},
-      {"NDIMB", {8, 16, 32}},
-      {"NDIMC", {8, 16, 32}},
-      {"NWG", {16, 32, 64, 128}},
+      {"MDIMA", {8, 16, 32, 64}},
+      {"MDIMC", {8, 16, 32, 64, 128}},
+      {"MWG", {16, 32, 64, 128, 256}},
+      {"NDIMB", {8, 16, 32, 64}},
+      {"NDIMC", {8, 16, 32, 64, 128}},
+      {"NWG", {16, 32, 64, 128, 256}},
       {"SA", {0, 1}},
       {"SB", {0, 1}},
       {"STRM", {0, 1}},
       {"STRN", {0, 1}},
       {"VWM", {1, 2, 4, 8}},
-      {"VWN", {1, 2, 4, 8}},
+      {"VWN", {1, 2, 4, 8}}
       // {"GEMMK", {0}},
       // {"MWG", {16, 32, 64, 128, 256}},
       // {"NWG", {16, 32, 64, 128, 256}},
@@ -206,10 +206,10 @@ TunerSettings XgemmGetTunerSettings(const int V, const Arguments<T> &args) {
 // Tests for valid arguments
 template <typename T>
 void XgemmTestValidArguments(const int V, const Arguments<T> &args) {
-  const auto mwg_max = (V == 1 || V == 11) ? 64 : 128;
-  const auto nwg_max = (V == 1 || V == 11) ? 64 : 128;
-  // const auto mwg_max = (V == 1 || V == 11) ? 256 : 128;
-  // const auto nwg_max = (V == 1 || V == 11) ? 256 : 128;
+  // const auto mwg_max = (V == 1 || V == 11) ? 64 : 128;
+  // const auto nwg_max = (V == 1 || V == 11) ? 64 : 128;
+  const auto mwg_max = (V == 1 || V == 11) ? 256 : 128;
+  const auto nwg_max = (V == 1 || V == 11) ? 256 : 128;
 
   if (!IsMultiple(args.m, mwg_max)) {
     throw std::runtime_error("'Xgemm' kernel requires 'm' to be a multiple of MWG (max " + ToString(mwg_max) + ")");

@@ -20,6 +20,7 @@ const DatabaseEntry XgemmHalf = {
           { kDeviceNameDefault                                        , Params{ 0, 1, 32, 2, 16, 16, 64, 16, 16, 64, 1, 1, 0, 0, 4, 1 } },
         } },
         { "default", {
+          { Name{"Radeon RX550/550 Series (POLARIS12, DRM 3.35.0, 5."}, Params{ 0, 1, 16, 2, 8, 8, 64, 32, 16, 128, 1, 1, 0, 1, 8, 4 } },
           { kDeviceNameDefault                                        , Params{ 0, 1, 32, 2, 16, 16, 64, 8, 8, 64, 1, 1, 0, 0, 4, 4 } },
         } },
         { "gfx1010:xnack-", {
@@ -72,6 +73,15 @@ const DatabaseEntry XgemmHalf = {
           { Name{"Intel(R) UHD Graphics 620                         "}, Params{ 0, 1, 32, 2, 8, 8, 64, 8, 8, 64, 0, 0, 0, 0, 1, 1 } },
           { Name{"Intel(R) UHD Graphics 770                         "}, Params{ 0, 1, 32, 2, 8, 16, 64, 8, 8, 128, 1, 1, 0, 1, 1, 8 } },
           { kDeviceNameDefault                                        , Params{ 0, 1, 32, 2, 8, 8, 64, 16, 16, 64, 1, 1, 0, 0, 2, 2 } },
+        } },
+      }
+    },
+    { // Jingjia Micro GPUs
+      kDeviceTypeGPU, "Jingjia Micro", {
+        { "default", {
+          { Name{"Jingjia OpenCL Device JM9200.6304.0130            "}, Params{ 0, 1, 32, 2, 16, 16, 128, 8, 16, 128, 1, 1, 0, 1, 4, 4 } },
+          { Name{"Jingjia OpenCL Device JM9230.6304.0130            "}, Params{ 0, 1, 32, 2, 16, 16, 128, 16, 16, 128, 1, 1, 0, 0, 8, 8 } },
+          { kDeviceNameDefault                                        , Params{ 0, 1, 32, 2, 16, 16, 128, 16, 16, 128, 1, 1, 0, 0, 8, 8 } },
         } },
       }
     },

@@ -228,6 +228,14 @@ GEMM = {
         },
         # {
         #     "name": "gemm", "num_runs": 20,
+        #     "title": "multiples of 257",
+        #     "x_label": "sizes (m=n=k)", "x_keys": ["m"],
+        #     "y_label": "GFLOPS (higher is better)", "y_key": "GFLOPS",
+        #     "arguments": [{"m": 257, "n": 257, "k": 257, "layout": 102,
+        #                    "transA": 111, "transB": 111, "step": 257, "num_steps": 20}],
+        # },
+        # {
+        #     "name": "gemm", "num_runs": 20,
         #     "title": "around 512",
         #     "x_label": "sizes (m=n=k)", "x_keys": ["m"],
         #     "y_label": "GFLOPS (higher is better)", "y_key": "GFLOPS",

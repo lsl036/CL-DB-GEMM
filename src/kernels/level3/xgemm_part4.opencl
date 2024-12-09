@@ -94,7 +94,6 @@ void XgemmLower(const int kSizeN, const int kSizeK,
 // If not using a triangular version, include the regular kernel
 #else
 
-#define TRY_MYKERNEL 1
 // Main entry point of the kernel. This is the regular full version.
 __kernel __attribute__((reqd_work_group_size(MDIMC, NDIMC, 1)))
 void Xgemm(const int kSizeM, const int kSizeN, const int kSizeK,
@@ -111,34 +110,13 @@ void Xgemm(const int kSizeM, const int kSizeN, const int kSizeK,
   bgm = &bgm[b_offset];
   cgm = &cgm[c_offset];
 
-  // TRY_MYKERNEL == 0 时，使用原生CLBlast的 kernel 进行运算
-  #if TRY_MYKERNEL == 0
-    // Allocates workgroup-private memory (local memory)
-    #if SA == 1
-      __local realM alm[KWG * MWG/VWM];
-    #endif
-    #if SB == 1
-      __local realN blm[KWG * NWG/VWN];
-    #endif
+  
+  __local realM alm[2 * KWG * MWG/VWM];
+  __local realN blm[2 * KWG * NWG/VWN];
 
-    // Computes the matrix-multiplication and stores the result in global memory
-    #if SA == 1 && SB == 1
-      XgemmBody(kSizeM, kSizeN, kSizeK, agm, bgm, cgm, alpha, beta, alm, blm);
-    #elif SA == 1
-      XgemmBody(kSizeM, kSizeN, kSizeK, agm, bgm, cgm, alpha, beta, alm);
-    #elif SB == 1
-      XgemmBody(kSizeM, kSizeN, kSizeK, agm, bgm, cgm, alpha, beta, blm);
-    #else
-      XgemmBody(kSizeM, kSizeN, kSizeK, agm, bgm, cgm, alpha, beta);
-    #endif
-  #else   // TRY_MYKERNEL == 1 时，使用 DB-GEMM 的 kernel 进行运算
-    __local realM alm[2 * KWG * MWG/VWM];
-    __local realN blm[2 * KWG * NWG/VWN];
+  // Computes the matrix-multiplication and stores the result in global memory
+  MyXgemmBody(kSizeM, kSizeN, kSizeK, agm, bgm, cgm, alpha, beta, alm, blm);
 
-    // Computes the matrix-multiplication and stores the result in global memory
-    MyXgemmBody(kSizeM, kSizeN, kSizeK, agm, bgm, cgm, alpha, beta, alm, blm);
-
-  #endif
 }
 
 #endif

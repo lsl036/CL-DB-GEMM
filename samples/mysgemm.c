@@ -39,7 +39,7 @@ void random_matrix(int m, int n, float *a, int lda);
 int main(void) {
 
   // OpenCL platform/device settings
-  const size_t platform_id = 1;
+  const size_t platform_id = 2;
   const size_t device_id = 0;
 
   // Example SGEMM arguments

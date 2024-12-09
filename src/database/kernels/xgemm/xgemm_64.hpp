@@ -90,6 +90,7 @@ const DatabaseEntry XgemmDouble = {
       }
     },
     { // Intel CPUs
+    // 0    1   16    2   16    4   64    4    8   32    0    0    1    0    4    4 : 345.3109 GFlops Intel Xeon 5120
       kDeviceTypeCPU, "Intel", {
         { "default", {
           { Name{"Intel(R) Core(TM) i7-2670QM CPU @ 2.20GHz         "}, Params{ 0, 1, 16, 2, 32, 8, 128, 16, 16, 128, 1, 1, 1, 1, 2, 8 } },
@@ -186,7 +187,8 @@ const DatabaseEntry XgemmDouble = {
         } },
         { "SM8.0", {
           { Name{"A100-PCIE-40GB                                    "}, Params{ 0, 1, 32, 2, 32, 32, 64, 8, 8, 32, 1, 1, 0, 0, 2, 2 } },
-          { kDeviceNameDefault                                        , Params{ 0, 1, 32, 2, 32, 32, 64, 8, 8, 32, 1, 1, 0, 0, 2, 2 } },
+          { Name{"NVIDIA A100-PCIE-40GB                             "}, Params{ 0, 1, 16, 2, 32, 32, 64, 8, 8, 32, 0, 1, 0, 1, 2, 2 } },
+          { kDeviceNameDefault                                        , Params{ 0, 1, 16, 2, 32, 32, 64, 8, 8, 32, 0, 1, 0, 1, 2, 2 } },
         } },
         { "SM8.6", {
           { Name{"NVIDIA GeForce RTX 3060 Laptop GPU                "}, Params{ 0, 1, 32, 2, 16, 8, 64, 16, 8, 16, 1, 1, 1, 0, 2, 1 } },

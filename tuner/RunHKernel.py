@@ -111,7 +111,7 @@ def Run_Xgemm_Kernel(parameters):
     parameters = parameters[0]
     try:
         # Half precision
-        cmd = ['./clblast_sample_BO_Tuner_half', '-platform', '1', '-precision', '16', '-GEMMK', str(parameters[0]), '-KREG', str(parameters[1]), '-KWG', str(parameters[2]), '-KWI', str(parameters[3]), '-MDIMA', str(parameters[4]), '-MDIMC', str(parameters[5]), '-MWG', str(parameters[6]), '-NDIMB', str(parameters[7]), '-NDIMC', str(parameters[8]), '-NWG', str(parameters[9]), '-SA', str(parameters[10]), '-SB', str(parameters[11]), '-STRM', str(parameters[12]), '-STRN', str(parameters[13]), '-VWM', str(parameters[14]), '-VWN', str(parameters[15])]
+        cmd = ['./clblast_sample_BO_Tuner_half', '-platform', '2', '-precision', '16', '-GEMMK', str(parameters[0]), '-KREG', str(parameters[1]), '-KWG', str(parameters[2]), '-KWI', str(parameters[3]), '-MDIMA', str(parameters[4]), '-MDIMC', str(parameters[5]), '-MWG', str(parameters[6]), '-NDIMB', str(parameters[7]), '-NDIMC', str(parameters[8]), '-NWG', str(parameters[9]), '-SA', str(parameters[10]), '-SB', str(parameters[11]), '-STRM', str(parameters[12]), '-STRN', str(parameters[13]), '-VWM', str(parameters[14]), '-VWN', str(parameters[15])]
         
         # 使用subprocess.Popen运行C++可执行程序
         process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -158,7 +158,7 @@ if __name__ == "__main__":
     mkfile_time = datetime.datetime.strftime(datetime.datetime.now(),'%Y%m%d%H%M%S')
     res_name = res_name + mkfile_time + '.pdf'
 
-    iteration_num = 30
+    iteration_num = 50
     optimizer.run_optimization(max_iter=iteration_num, verbosity=True)
 
     # 查看优化结果

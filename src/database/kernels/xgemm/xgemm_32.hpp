@@ -59,6 +59,7 @@ const DatabaseEntry XgemmSingle = {
         { "default", {
           { Name{"AMD Radeon Pro 450 Compute Engine                 "}, Params{ 0, 1, 32, 2, 16, 16, 64, 8, 8, 64, 1, 1, 0, 0, 4, 4 } },
           { Name{"AMD Radeon Pro 580 Compute Engine                 "}, Params{ 0, 1, 32, 2, 8, 8, 32, 8, 8, 64, 0, 0, 0, 0, 4, 4 } },
+          { Name{"Radeon RX550/550 Series (POLARIS12, DRM 3.35.0, 5."}, Params{ 0, 1, 16, 2, 16, 8, 64, 8, 8, 32, 1, 1, 1, 0, 4, 4 } },
           { kDeviceNameDefault                                        , Params{ 0, 1, 32, 2, 16, 16, 64, 8, 8, 64, 1, 1, 0, 0, 4, 4 } },
         } },
         { "gfx1010:xnack-", {
@@ -159,6 +160,15 @@ const DatabaseEntry XgemmSingle = {
         } },
       }
     },
+    { // Jingjia Micro GPUs
+      kDeviceTypeGPU, "Jingjia Micro", {
+        { "default", {
+          { Name{"Jingjia OpenCL Device JM9200.6304.0130            "}, Params{ 1, 4, 1, 1, 16, 16, 64, 4, 4, 32, 0, 0, 0, 0, 4, 4 } },
+          { Name{"Jingjia OpenCL Device JM9230.6304.0130            "}, Params{ 0, 1, 16, 4, 16, 16, 128, 16, 16, 128, 1, 1, 1, 1, 4, 4 } },
+          { kDeviceNameDefault                                        , Params{ 0, 1, 16, 2, 16, 16, 64, 16, 8, 128, 0, 0, 0, 0, 4, 8 } },
+        } },
+      }
+    },
     { // NVIDIA GPUs
       kDeviceTypeGPU, "NVIDIA", {
         { "SM2.0", {
@@ -224,7 +234,7 @@ const DatabaseEntry XgemmSingle = {
           // { Name{"NVIDIA A100-PCIE-40GB                             "}, Params{ 0, 1, 32, 2, 8, 8, 32, 16, 16, 64, 1, 1, 0, 0, 4, 4 } },
           // my kernel
           //"GEMMK=0 KREG=1 KWG=32 KWI=2 MDIMA=8 MDIMC=8 MWG=32 NDIMB=16 NDIMC=16 NWG=64 PRECISION=32 SA=1 SB=1 STRM=0 STRN=0 VWM=4 VWN=4"
-          { Name{"NVIDIA A100-PCIE-40GB                             "}, Params{ 0, 1, 32, 2, 8, 8, 32, 16, 16, 64, 1, 1, 0, 0, 4, 4 } },
+          { Name{"NVIDIA A100-PCIE-40GB                             "}, Params{ 0, 1, 16, 2, 8, 8, 32, 16, 16, 64, 0, 1, 0, 1, 4, 4 } },
           { kDeviceNameDefault                                        , Params{ 0, 1, 32, 2, 8, 8, 32, 16, 16, 64, 1, 1, 0, 0, 4, 4 } },
         } },
         { "SM8.6", {

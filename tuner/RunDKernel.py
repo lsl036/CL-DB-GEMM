@@ -15,14 +15,14 @@ GEMM_bds = [{'name': 'GEMMK', 'type': 'discrete', 'domain': [0]},            #0
             {'name': 'KREG', 'type': 'discrete', 'domain': [1]},          #1
             {'name': 'KWG', 'type': 'discrete', 'domain': [16, 32]},                #2
             {'name': 'KWI', 'type': 'discrete', 'domain': [2]},              #3
-            {'name': 'MDIMA', 'type': 'discrete', 'domain': [8, 16, 32]},   #4
-            {'name': 'MDIMC', 'type': 'discrete', 'domain': [8, 16, 32]},       #5
-            {'name': 'MWG', 'type': 'discrete', 'domain': [16, 32, 64, 128]},   #6
-            {'name': 'NDIMB', 'type': 'discrete', 'domain': [8, 16, 32]},   #7
-            {'name': 'NDIMC', 'type': 'discrete', 'domain': [8, 16, 32]},       #8
-            {'name': 'NWG', 'type': 'discrete', 'domain': [16, 32, 64, 128]},   #9
-            {'name': 'SA', 'type': 'discrete', 'domain': [0, 1]},               #10
-            {'name': 'SB', 'type': 'discrete', 'domain': [0, 1]},               #11
+            {'name': 'MDIMA', 'type': 'discrete', 'domain': [8, 16, 32, 64]},   #4
+            {'name': 'MDIMC', 'type': 'discrete', 'domain': [8, 16, 32, 64, 128]},       #5
+            {'name': 'MWG', 'type': 'discrete', 'domain': [16, 32, 64, 128, 256]},   #6
+            {'name': 'NDIMB', 'type': 'discrete', 'domain': [8, 16, 32, 64]},   #7
+            {'name': 'NDIMC', 'type': 'discrete', 'domain': [8, 16, 32, 64, 128]},       #8
+            {'name': 'NWG', 'type': 'discrete', 'domain': [16, 32, 64, 128, 256]},   #9
+            {'name': 'SA', 'type': 'discrete', 'domain': [1]},               #10
+            {'name': 'SB', 'type': 'discrete', 'domain': [1]},               #11
             {'name': 'STRM', 'type': 'discrete', 'domain': [0, 1]},             #12
             {'name': 'STRN', 'type': 'discrete', 'domain': [0, 1]},             #13
             {'name': 'VWM', 'type': 'discrete', 'domain': [1, 2, 4]},        #14
@@ -101,6 +101,8 @@ def parse_output(output):
     lines = output.split('\n')
     last_line = lines[-1]
     # print("last_line = ",last_line)
+    if last_line and last_line[-1] == 'x':
+        return '-'
     
     fields = last_line.split('|')
     needed_result = fields[-3].strip()
@@ -111,7 +113,7 @@ def Run_Xgemm_Kernel(parameters):
     parameters = parameters[0]
     try:
         # Double precision
-        cmd = ['./clblast_sample_BO_Tuner_double', '-platform', '1', '-precision', '64', '-GEMMK', str(parameters[0]), '-KREG', str(parameters[1]), '-KWG', str(parameters[2]), '-KWI', str(parameters[3]), '-MDIMA', str(parameters[4]), '-MDIMC', str(parameters[5]), '-MWG', str(parameters[6]), '-NDIMB', str(parameters[7]), '-NDIMC', str(parameters[8]), '-NWG', str(parameters[9]), '-SA', str(parameters[10]), '-SB', str(parameters[11]), '-STRM', str(parameters[12]), '-STRN', str(parameters[13]), '-VWM', str(parameters[14]), '-VWN', str(parameters[15])]
+        cmd = ['./clblast_sample_BO_Tuner_double', '-platform', '2', '-precision', '64', '-GEMMK', str(parameters[0]), '-KREG', str(parameters[1]), '-KWG', str(parameters[2]), '-KWI', str(parameters[3]), '-MDIMA', str(parameters[4]), '-MDIMC', str(parameters[5]), '-MWG', str(parameters[6]), '-NDIMB', str(parameters[7]), '-NDIMC', str(parameters[8]), '-NWG', str(parameters[9]), '-SA', str(parameters[10]), '-SB', str(parameters[11]), '-STRM', str(parameters[12]), '-STRN', str(parameters[13]), '-VWM', str(parameters[14]), '-VWN', str(parameters[15])]
         
         # 使用subprocess.Popen运行C++可执行程序
         process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -158,7 +160,7 @@ if __name__ == "__main__":
     mkfile_time = datetime.datetime.strftime(datetime.datetime.now(),'%Y%m%d%H%M%S')
     res_name = res_name + mkfile_time + '.pdf'
 
-    iteration_num = 30
+    iteration_num = 50
     optimizer.run_optimization(max_iter=iteration_num, verbosity=True)
 
     # 查看优化结果
