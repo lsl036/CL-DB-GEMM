@@ -670,6 +670,7 @@ if(BO)
   set (BAYESIAN_OPT
   tuner/RunSKernel.py
   tuner/RunDKernel.py
+  scripts/pcm_catch.sh
   )
 
   foreach (_file ${BAYESIAN_OPT})
