@@ -90,12 +90,12 @@ INLINE_FUNC void MyXgemmBody(const int kSizeM, const int kSizeN, const int kSize
     }
   }
 
-  // 加载第一批数据到 local memory, 再load 到寄存器
+  // Load the first batch of data into local memory, then load it into the registers.
   
-  // 中间寄存器
+  // Intermediate register
   #pragma promote_to_registers
-  realM a_ldg_reg[MWA/VWM * KWA];  // RX550 上 2/1 * 2
-  realN b_ldg_reg[NWB/VWN * KWB];  // RX550 上 4/2 * 4
+  realM a_ldg_reg[MWA/VWM * KWA];  // 2/1 * 2 on RX550
+  realN b_ldg_reg[NWB/VWN * KWB];  // 4/2 * 4 on RX550
 
   int mg, kg_a, kg_b, ng, idm, idk_a, idk_b, idn;
   const int la0 = tid % MDIMA;
@@ -180,7 +180,7 @@ INLINE_FUNC void MyXgemmBody(const int kSizeM, const int kSizeN, const int kSize
   // GlobalToLocalB(bgm, blm, kSizeN, tid, 0);
   barrier(CLK_LOCAL_MEM_FENCE);
 
-  // 写进 shared mem中的 idx
+  // Written to shared memory controled by idx
   int write_stage_idx = 1;
 
   #if STRM == 1
@@ -189,7 +189,7 @@ INLINE_FUNC void MyXgemmBody(const int kSizeM, const int kSizeN, const int kSize
     const int aLtoP_offset = get_local_id(0)*(MWI/VWM);
   #endif
 
-  // Local --> Private memory 加载第一次计算的apm, bpm
+  // Local --> Private memory Load the first apm, bpm used for computation
   #pragma unroll
   for (int _mi = 0; _mi < MWI/VWM; _mi += 1) {
   #if STRM == 1
@@ -214,12 +214,12 @@ INLINE_FUNC void MyXgemmBody(const int kSizeM, const int kSizeN, const int kSize
   #endif
   }
 
-  // 执行 ping-pong 运算
+  // Execute the ping-pong computation
   do
   {
     kwg += KWG * KREG;
 
-    // 预取下一次的 Global数据到 中间寄存器 global --> reg
+    // Prefetch the next Global data to the intermediate register global --> reg
 
     // from Global A to a_ldg_reg
     #pragma unroll
@@ -249,7 +249,7 @@ INLINE_FUNC void MyXgemmBody(const int kSizeM, const int kSizeN, const int kSize
     
     int load_stage_idx = write_stage_idx ^ 1;
     
-    // 加载 j = 0 ~ 14
+    // Loading j = 0 ~ 14
     #pragma unroll
     for (int j = 0; j < (KWG - 1)* KREG; j += KREG)
     {
@@ -282,8 +282,8 @@ INLINE_FUNC void MyXgemmBody(const int kSizeM, const int kSizeN, const int kSize
         }
       }
 
-      // load 到寄存器的编号为 j+1 = 1 ~ 15
-      //  最开始 load_stage_idx = 0
+      // load to registers numbered j+1 = 1 ~ 15
+      //  At the beginning load_stage_idx = 0
       #pragma unroll
       for (int _mi = 0; _mi < MWI/VWM; _mi += 1) {
         // apm[(j+1)%2][_mi] = LocalToPrivateA(alm + load_stage_idx * KWG * MWG/VWM, _mi, (j+1));
@@ -302,12 +302,12 @@ INLINE_FUNC void MyXgemmBody(const int kSizeM, const int kSizeN, const int kSize
           bpm[(j+1)%2][_ni] = blm[load_stage_idx * KWG * NWG/VWN + (j+1)*(NWG/VWN) + bLtoP_offset + _ni];
         #endif
       }
-      // realM* 不支持进行异或运算
+      // OpenCL realM* does not support different-or operations.
       // alm ^= KWG * MWG/VWM * 4;
       // blm ^= KWG * NWG/VWN * 4;
     }
 
-    // 后续还有块, load 中间寄存器到相应的local memory中
+    // If there are subsequent blocks of data, load the intermediate registers into the appropriate local memory.
     if (kwg < kSizeK){
       // reg --> Local
       // from a_ldg_reg to alm
@@ -347,7 +347,7 @@ INLINE_FUNC void MyXgemmBody(const int kSizeM, const int kSizeN, const int kSize
       write_stage_idx ^= 1;
     }
 
-    // 提前load 下一次循环的数据到reg[0]
+    // Pre-load the data for the next loop to reg[0].
     #pragma unroll
     for (int _mi = 0; _mi < MWI/VWM; _mi += 1) {
       // apm[0][_mi] = LocalToPrivateA(alm + (load_stage_idx ^ 1) * KWG * MWG/VWM, _mi, 0);
@@ -368,7 +368,7 @@ INLINE_FUNC void MyXgemmBody(const int kSizeM, const int kSizeN, const int kSize
       #endif
     }
 
-    // 补K 循环中的tail 计算, 由于j取到15还剩下reg[1]没算
+    // Completing the tail calculation in the K loop, since j is taken to 15 there is still reg[1] left to be calculated.
     #pragma unroll
     for (int _mi = 0; _mi < MWI/VWM; _mi += 1) {
       const realM aval = apm[1][_mi];
@@ -402,7 +402,7 @@ INLINE_FUNC void MyXgemmBody(const int kSizeM, const int kSizeN, const int kSize
     barrier(CLK_GLOBAL_MEM_FENCE);
   #endif
 
-  // Stores an MWG * NWG tile of results and performs the multiplication with alpha and beta 还没检查
+  // Stores an MWG * NWG tile of results and performs the multiplication with alpha and beta 
   #if GEMMK == 0
     const int cld = kSizeM;
   #endif
