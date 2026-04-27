@@ -24,3 +24,16 @@ python RunHKernel.py    // Half precision
 python RunSKernel.py    // Single precision
 python RunDKernel.py    // Double precision
 ```
+### Cite this work
+```
+@ARTICLE{11077458,
+  author={Lin, Shengle and Xiao, Guoqing and Wang, Haotian and Yang, Wangdong and Li, Kenli and Li, Keqin},
+  journal={IEEE Transactions on Parallel and Distributed Systems}, 
+  title={High Performance OpenCL-Based GEMM Kernel Auto-Tuned by Bayesian Optimization}, 
+  year={2025},
+  volume={36},
+  number={9},
+  pages={1985-1997},
+  doi={10.1109/TPDS.2025.3587673}}
+
+```
